@@ -9,7 +9,7 @@ import { fetchMovies } from "../../services/movieService";
 import { Toaster, toast } from "react-hot-toast";
 import styles from "./App.module.css";
 
-export default function App(): JSX.Element {
+export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

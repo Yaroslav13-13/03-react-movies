@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { createPortal } from "react-dom";
+import ReactDOM from "react-dom";
+import styles from "./MovieModal.module.css";
 import type { Movie } from "../../types/movie";
 import { getImageUrl } from "../../services/movieService";
-import styles from "./MovieModal.module.css";
 
 interface MovieModalProps {
   movie: Movie;
@@ -13,10 +13,7 @@ const modalRoot = document.getElementById("modal-root") || document.body;
 
 export default function MovieModal({ movie, onClose }: MovieModalProps) {
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-
+    const handleEsc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", handleEsc);
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -36,9 +33,18 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     getImageUrl(movie.poster_path);
 
   const modalContent = (
-    <div className={styles.backdrop} onClick={handleBackdropClick}>
+    <div
+      className={styles.backdrop}
+      role="dialog"
+      aria-modal="true"
+      onClick={handleBackdropClick}
+    >
       <div className={styles.modal}>
-        <button className={styles.closeButton} onClick={onClose}>
+        <button
+          className={styles.closeButton}
+          aria-label="Close modal"
+          onClick={onClose}
+        >
           &times;
         </button>
         {imageSrc && (
@@ -58,5 +64,5 @@ export default function MovieModal({ movie, onClose }: MovieModalProps) {
     </div>
   );
 
-  return createPortal(modalContent, modalRoot);
+  return ReactDOM.createPortal(modalContent, modalRoot);
 }

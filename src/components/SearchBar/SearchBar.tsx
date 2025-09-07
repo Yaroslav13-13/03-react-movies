@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { useState, type FormEvent } from "react";
 import styles from "./SearchBar.module.css";
 import { toast } from "react-hot-toast";
 
@@ -34,6 +34,8 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
           <input
             className={styles.input}
             type="text"
+            name="query"
+            autoComplete="off"
             placeholder="Search movies..."
             autoFocus
             value={query}
